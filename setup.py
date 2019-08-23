@@ -1,9 +1,10 @@
+from setuptools import find_packages
 from setuptools import setup
 
 setup(
     name='neopixel_ring',
     version='1.0.0',
-    packages=['neopixel_ring'],
+    packages=find_packages(exclude=['test']),
     py_modules=[],
     install_requires=['setuptools'],
     author='Alexander Roessler',
@@ -19,7 +20,7 @@ setup(
     ],
     description='NeoPixel Ring control fro ROS2.',
     license='Apache License, Version 2.0',
-    test_suite='test',
+    tests_require=['pytest'],
     entry_points={
         'console_scripts': [
             'neopixel_node = neopixel_ring.neopixel_node:main',
