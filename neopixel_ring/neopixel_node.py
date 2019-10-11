@@ -45,8 +45,8 @@ class NeopixelNode(Node):
         self.pixels.fill(self.OFF)
         color = tuple(map(lambda x: int(x * 0.01),
                           (self.BLUE if self._connected else self.RED)))
-        self.pixels[0] = color
-        self.pixels[1] = color
+        for i in range(0, len(self.pixels), 2):
+            self.pixels[i] = color
 
     def _update_light(self):
         if self._enabled and self._connected:
@@ -58,6 +58,7 @@ class NeopixelNode(Node):
         if value is self._connected:
             return
 
+        self.get_logger().debug('connected: {}'.format(value))
         self._connected = value
         self._update_light()
 
