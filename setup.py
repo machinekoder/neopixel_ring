@@ -24,6 +24,7 @@ setup(
     entry_points={
         'console_scripts': [
             'neopixel_node = neopixel_ring.neopixel_node:main',
+            'body_leds_node = neopixel_ring.body_leds_node:main',
         ],
     },
 )
