@@ -21,7 +21,7 @@ class NeopixelNode(Node):
 
     DEFAULT_COLOR = GREEN
     DEFAULT_BRIGHTNESS = 0.2
-    DEFAULT_ENABLED = False
+    DEFAULT_ENABLED = True
     DEFAULT_MODE = 0
 
     def __init__(self, com_pin=board.D21, num_pixels=254, pixel_order=neopixel.GRBW):
