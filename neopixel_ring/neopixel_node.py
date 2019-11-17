@@ -17,10 +17,12 @@ class NeopixelNode(Node):
     BLUE = (0, 0, 255)
     OFF = (0, 0, 0)
 
+    DEFAULT_BRIGHTNESS = 1.0
+
     def __init__(self, com_pin=board.D18, num_pixels=16):
         super().__init__('neopixel_node')
 
-        self.pixels = neopixel.NeoPixel(com_pin, num_pixels)
+        self.pixels = neopixel.NeoPixel(com_pin, num_pixels, brightness=self.DEFAULT_BRIGHTNESS)
         self._connected = False
         self._enabled = False
         self._update_light()
