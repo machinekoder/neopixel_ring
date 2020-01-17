@@ -20,11 +20,13 @@ class NeopixelNode(Node):
     OFF = (0, 0, 0, 0)
 
     DEFAULT_COLOR = GREEN
-    DEFAULT_BRIGHTNESS = 0.2
+    DEFAULT_BRIGHTNESS = 0.6
     DEFAULT_ENABLED = True
     DEFAULT_MODE = 0
+    NUM_PIXELS = 250
+    # 254 original
 
-    def __init__(self, com_pin=board.D21, num_pixels=254, pixel_order=neopixel.GRBW):
+    def __init__(self, com_pin=board.D21, num_pixels=NUM_PIXELS, pixel_order=neopixel.GRBW):
         super().__init__('neopixel_node')
 
         self.pixels = neopixel.NeoPixel(com_pin, num_pixels, brightness=self.DEFAULT_BRIGHTNESS, pixel_order=pixel_order)
