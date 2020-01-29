@@ -12,17 +12,18 @@ import neopixel
 
 class NeopixelNode(Node):
 
-    WHITE = (255, 255, 255)
-    RED = (255, 0, 0)
-    BLUE = (0, 0, 255)
-    OFF = (0, 0, 0)
+    WHITE = (255, 255, 255, 255)
+    RED = (255, 0, 0, 0)
+    REDW = (255, 0, 0, 128)
+    BLUE = (0, 0, 255, 0)
+    OFF = (0, 0, 0, 0)
 
     DEFAULT_BRIGHTNESS = 1.0
 
-    def __init__(self, com_pin=board.D18, num_pixels=16):
+    def __init__(self, com_pin=board.D18, num_pixels=12, pixel_order=neopixel.GRBW):
         super().__init__('neopixel_node')
 
-        self.pixels = neopixel.NeoPixel(com_pin, num_pixels, brightness=self.DEFAULT_BRIGHTNESS)
+        self.pixels = neopixel.NeoPixel(com_pin, num_pixels, brightness=self.DEFAULT_BRIGHTNESS, pixel_order=pixel_order, auto_write=False)
         self._connected = False
         self._enabled = False
         self._update_light()
@@ -49,10 +50,12 @@ class NeopixelNode(Node):
                           (self.BLUE if self._connected else self.RED)))
         for i in range(0, len(self.pixels), 2):
             self.pixels[i] = color
+        self.pixels.show()
 
     def _update_light(self):
         if self._enabled and self._connected:
-            self.pixels.fill(self.RED)
+            self.pixels.fill(self.REDW)
+            self.pixels.show()
         else:
             self._standby_light()
 
