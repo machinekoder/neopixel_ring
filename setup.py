@@ -18,13 +18,12 @@ setup(
         'Programming Language :: Python',
         'Topic :: Software Development',
     ],
-    description='NeoPixel Ring control fro ROS2.',
+    description='NeoPixel Ring control for ROS2.',
     license='Apache License, Version 2.0',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
             'neopixel_node = neopixel_ring.neopixel_node:main',
-            'body_leds_node = neopixel_ring.body_leds_node:main',
         ],
     },
 )
