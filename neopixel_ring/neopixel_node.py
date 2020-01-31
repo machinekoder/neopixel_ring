@@ -64,6 +64,7 @@ class LedSegment(object):
         self,
         node,
         name,
+        segment_name,
         pixels,
         start_index,
         num_pixels,
@@ -75,7 +76,6 @@ class LedSegment(object):
         brightness
     ):
         self._node = node
-        self._name = name
         self._start_index = start_index
         self._num_pixels = num_pixels
         self._pixels = pixels
@@ -90,19 +90,19 @@ class LedSegment(object):
 
         self._subs = [
             node.create_subscription(
-                Bool, 'neopixel/{}/enable'.format(name), self._enable_callback, 1
+                Bool, '{}/{}/enable'.format(name, segment_name), self._enable_callback, 1
             ),
             node.create_subscription(
-                String, 'neopixel/{}/color'.format(name), self._color_callback, 1
+                String, '{}/{}/color'.format(name, segment_name), self._color_callback, 1
             ),
             node.create_subscription(
-                String, 'neopixel/{}/extra_color'.format(name), self._extra_color_callback, 1
+                String, '{}/{}/extra_color'.format(name), self._extra_color_callback, 1
             ),
             node.create_subscription(
-                UInt8, 'neopixel/{}/mode'.format(name), self._mode_callback, 1
+                UInt8, '{}/{}/mode'.format(name), self._mode_callback, 1
             ),
             node.create_subscription(
-                Float32, 'neopixel/{}/brightness'.format(name), self._brightness_callback, 1
+                Float32, '{}/{}/brightness'.format(name, segment_name), self._brightness_callback, 1
             )
         ]
 
@@ -326,6 +326,8 @@ class NeopixelNode(Node):
 
         self.declare_parameter('heartbeat_period_s', 0.5)
         self._timeout_s = self.get_parameter('heartbeat_period_s').value * 2.0
+        self.declare_parameter('name', 'neopixel')
+        self._name = self.get_parameter('name').value
         secs = int(self._timeout_s)
         nsecs = int((self._timeout_s - secs) * 1e9)
         self._timeout_duration = Duration(seconds=secs, nanoseconds=nsecs)
@@ -334,7 +336,8 @@ class NeopixelNode(Node):
             LedSegment(
                 node=self,
                 pixels=self._pixels,
-                name='body',
+                name=self._name,
+                segment_name='body',
                 start_index=0,
                 num_pixels=NUM_BODY_PIXELS,
                 pixel_order=pixel_order,
@@ -347,7 +350,8 @@ class NeopixelNode(Node):
             LedSegment(
                 node=self,
                 pixels=self._pixels,
-                name='headlight',
+                name=self._name',
+                segment_name='headlight',
                 start_index=NUM_BODY_PIXELS,
                 num_pixels=NUM_HEADLIGHT_PIXELS,
                 pixel_order=pixel_order,
