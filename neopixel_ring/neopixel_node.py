@@ -96,6 +96,9 @@ class LedSegment(object):
                 String, 'neopixel/{}/color'.format(name), self._color_callback, 1
             ),
             node.create_subscription(
+                String, 'neopixel/{}/extra_color'.format(name), self._extra_color_callback, 1
+            ),
+            node.create_subscription(
                 UInt8, 'neopixel/{}/mode'.format(name), self._mode_callback, 1
             ),
             node.create_subscription(
@@ -291,6 +294,10 @@ class LedSegment(object):
         self._node.get_logger().debug('Changing color {}'.format(msg.data))
         self._color = self._color_string_to_rgbw(msg.data)
 
+    def _extra_color_callback(self, msg):
+        self._node.get_logger().debug('Changing extra color {}'.format(msg.data))
+        self._color2 = self._color_string_to_rgbw(msg.data)
+
     def _mode_callback(self, msg):
         self._node.get_logger().debug('Changing mode {}'.format(msg.data))
         self._mode = msg.data
@@ -332,7 +339,7 @@ class NeopixelNode(Node):
                 num_pixels=NUM_BODY_PIXELS,
                 pixel_order=pixel_order,
                 enabled=True,
-                mode=LedModes.COLOR_TURN,
+                mode=LedModes.STRIPE,
                 color=LedColors.RED,
                 extra_color=LedColors.BLUE,
                 brightness=0.6
@@ -344,7 +351,7 @@ class NeopixelNode(Node):
                 start_index=NUM_BODY_PIXELS,
                 num_pixels=NUM_HEADLIGHT_PIXELS,
                 pixel_order=pixel_order,
-                enabled=True,
+                enabled=False,
                 mode=LedModes.SINGLE_COLOR,
                 color=LedColors.REDW,
                 extra_color=LedColors.BLUE,
