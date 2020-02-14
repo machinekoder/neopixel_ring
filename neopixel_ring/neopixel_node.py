@@ -96,10 +96,10 @@ class LedSegment(object):
                 String, '{}/{}/color'.format(name, segment_name), self._color_callback, 1
             ),
             node.create_subscription(
-                String, '{}/{}/extra_color'.format(name), self._extra_color_callback, 1
+                String, '{}/{}/extra_color'.format(name, segment_name), self._extra_color_callback, 1
             ),
             node.create_subscription(
-                UInt8, '{}/{}/mode'.format(name), self._mode_callback, 1
+                UInt8, '{}/{}/mode'.format(name, segment_name), self._mode_callback, 1
             ),
             node.create_subscription(
                 Float32, '{}/{}/brightness'.format(name, segment_name), self._brightness_callback, 1
@@ -350,7 +350,7 @@ class NeopixelNode(Node):
             LedSegment(
                 node=self,
                 pixels=self._pixels,
-                name=self._name',
+                name=self._name,
                 segment_name='headlight',
                 start_index=NUM_BODY_PIXELS,
                 num_pixels=NUM_HEADLIGHT_PIXELS,
